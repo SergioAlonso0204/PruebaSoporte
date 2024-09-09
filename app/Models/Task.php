@@ -9,7 +9,7 @@ class Task extends Model
 
     protected $table = 'tasks';
 
-    protected $fillable = ['title', 'description', 'user_id'];
+    protected $fillable = ['id','title', 'description', 'user_id'];
 
     // Relaciones
     public function user()

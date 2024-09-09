@@ -9,6 +9,9 @@ export default new Vuex.Store({
         tasks: [] // Estado inicial para las tareas
     },
     mutations: {
+        SET_TASKS(state, tasks) {
+            state.tasks = tasks;
+        },
         ADD_TASK(state, task) {
             state.tasks.push(task);
         },
@@ -23,6 +26,16 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        fetchTasks({ commit }) {
+            // Acción para obtener todas las tareas desde el servidor
+            axios.get('/tasks')
+                .then(response => {
+                    commit('SET_TASKS', response.data);
+                })
+                .catch(error => {
+                    console.error("Error fetching tasks:", error);
+                });
+        },
         addTask({ commit }, task) {
             axios.post('/tasks', task)
                 .then(response => {

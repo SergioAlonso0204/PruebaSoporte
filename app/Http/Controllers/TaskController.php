@@ -28,17 +28,16 @@ class TaskController extends Controller
     // Actualizar tarea
     public function update(Request $request, $id)
     {
-
         $validated = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required|max:500',
         ]);
 
-        $task = Task::find($id);
+        $task = Task::findOrFail($id);
 
-        if(!$task) {
-            return redirect()->back()->with('error', 'Task not found.');
-        }
+        // if(!$task) {
+        //     return redirect()->back()->with('error', 'Task not found.');
+        // }
 
         // Corrección: Se actualiza la tarea con datos validados.
         $task->update($validated);
@@ -50,12 +49,12 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
 
-        if(!$task) {
-            return redirect()->back()->with('error', 'Task not found.');
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
         }
 
         $task->delete();
 
-        return redirect()->back()->with('success', 'Task deleted successfully.');
+        return response()->json(['success' => 'Task deleted successfully.']);
     }
 }
